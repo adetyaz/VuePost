@@ -1,12 +1,23 @@
+/* eslint-disable prettier/prettier */
 import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
+import "./assets/scss/app.scss";
+
+const fb = require("../firebaseConfig.js");
 
 Vue.config.productionTip = false;
 
-new Vue({
-  router,
-  store,
-  render: h => h(App)
-}).$mount("#app");
+let app;
+
+// eslint-disable-next-line no-unused-vars
+fb.auth.onAuthStateChanged((user) => {
+    if (!app) {
+        app = new Vue({
+            router,
+            store,
+            render: (h) => h(App),
+        }).$mount("#app");
+    }
+});
