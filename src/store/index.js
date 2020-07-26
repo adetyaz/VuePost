@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-const fb = require('../../firebaseConfig')
+const fb = require('../../firebaseConfig.js')
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -20,13 +20,21 @@ export default new Vuex.Store({
     actions: {
         fetchUserProfile({ commit, state }) {
             fb.usersCollection
-                .doc(state.currentUser.uid)
+                .doc(state.auth.currentUser.uid)
                 .get()
-                .then(response => commit('setUserProfile', response.data()))
+                .then(response => {
+                    commit('setUserProfile', response.data())
+                })
                 .catch(error => {
                     console.log(error)
+                    console.log(error.message)
                 })
+        },
+        clearData({ commit }) {
+            commit('setCurrentUser', null)
+            commit('setUserProfile', {})
         },
     },
     modules: {},
+    // eslint-disable-next-line prettier/prettier
 })
