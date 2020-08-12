@@ -1,11 +1,17 @@
 <template>
     <div>
-        <form @submit.prevent="login">
+        <form @submit.prevent="signup">
+            <input
+                type="text"
+                v-model="credentials.username"
+                name="name"
+                placeholder="username"
+            />
             <input
                 type="email"
                 v-model="credentials.email"
-                name="name"
-                placeholder="Email"
+                name="email"
+                placeholder="email"
             />
             <input
                 type="password"
@@ -14,44 +20,44 @@
                 placeholder="password"
             />
             <button type="submit">Submit</button>
-            <p>Register Here</p>
         </form>
     </div>
 </template>
 
 <script>
 import firebase from 'firebase'
+
 export default {
     data() {
         return {
             credentials: {
+                username: '',
                 email: '',
                 password: '',
             },
-
-            sighUpReveal: false,
         }
     },
     methods: {
-        login() {
+        signup() {
             firebase
                 .auth()
-                .signInWithEmailAndPassword(
+                .createUserWithEmailAndPassword(
                     this.credentials.email,
                     this.credentials.password
                 )
-                .then(() => {
-                    this.$router.push('/dashboard')
+                .then(res => {
+                    res.user
+                        .updateProfile({
+                            displayName: this.credentials.username,
+                        })
+                        .then(() => {
+                            this.$router.push('/login')
+                        })
                 })
                 .catch(error => {
                     alert(error.message)
                 })
         },
-    },
-    computed: {
-        // toggleForm: function() {
-        //     return this.sighUpReveal: true
-        // },
     },
 }
 </script>
