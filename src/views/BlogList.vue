@@ -1,10 +1,11 @@
 <template>
     <div>
-        <header class="masthead" :style="{ backgroundImage: backgroundImage }">
+        <header class="masthead">
             <div class="overlay"></div>
             <div class="container">
                 <div class="row">
                     <div class="col-lg-8 col-md-10 mx-auto">
+                        <img src="../assets/logo.png" alt="logo" class="logo" />
                         <div class="site-heading">
                             <h1>WeJapa Blog</h1>
                             <span class="subheading">Just Keep Going</span>
@@ -17,11 +18,7 @@
         <!-- Main Content -->
         <div class="container">
             <div class="row">
-                <div
-                    class="col-lg-8 col-md-10 mx-auto"
-                    v-for="blog in blogs"
-                    :key="blog.id"
-                >
+                <div class="col-lg-8 col-md-10 mx-auto" v-for="blog in blogs" :key="blog.id">
                     <div class="post-preview">
                         <router-link
                             :to="{
@@ -29,12 +26,8 @@
                                 params: { id: blog.id },
                             }"
                         >
-                            <h2 class="post-title">
-                                {{ blog.title }}
-                            </h2>
-                            <h3 class="post-subtitle">
-                                {{ blog.body }}
-                            </h3>
+                            <h2 class="post-title">{{ blog.title }}</h2>
+                            <h3 class="post-subtitle">{{ blog.body }}</h3>
                         </router-link>
                     </div>
                     <hr />
@@ -90,5 +83,25 @@ export default {
 }
 .post-preview {
     margin: 3rem;
+}
+
+.masthead {
+    background: url('../assets/images/home-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 23rem;
+}
+.site-heading {
+    text-align: center;
+    color: white;
+    font-size: 2.5rem;
+    font-weight: 700;
+    padding-top: 5rem;
+}
+.logo {
+    height: 6rem;
+    margin: 1rem 0;
+    padding: 0 18.5rem;
 }
 </style>

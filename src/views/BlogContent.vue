@@ -1,17 +1,12 @@
 <template>
     <div>
-        <header
-            class="masthead"
-            style="background-image: url('../assets/images/post-bg.jpg')"
-        >
+        <header class="mastheader">
             <div class="overlay"></div>
             <div class="container">
                 <div class="row">
                     <div class="col-lg-8 col-md-10 mx-auto">
                         <div class="post-heading">
-                            <h1>
-                                {{ event.title }}
-                            </h1>
+                            <h1>{{ blog.title }}</h1>
                         </div>
                     </div>
                 </div>
@@ -23,27 +18,19 @@
             <div class="container">
                 <div class="row">
                     <div class="col-lg-8 col-md-10 mx-auto">
-                        <p>
-                            {{ event.body }}
-                        </p>
+                        <p class="body">{{ blog.body }}</p>
                     </div>
                     <hr />
-                    <h2 class="section-heading">Comments</h2>
 
+                    <h2 class="section-comment">Comments</h2>
                     <div
                         class="col-lg-8 col-md-10 mx-auto"
                         v-for="comment in comments"
                         :key="comment.id"
                     >
-                        <p>
-                            {{ comment.name }}
-                        </p>
-                        <p>
-                            {{ comment.email }}
-                        </p>
-                        <p>
-                            {{ comment.body }}
-                        </p>
+                        <p>{{ comment.name }}</p>
+                        <p>{{ comment.email }}</p>
+                        <p>{{ comment.body }}</p>
                     </div>
                 </div>
             </div>
@@ -53,6 +40,7 @@
         <br />
 
         <div>
+            <h3 class="comment">Add a Comment</h3>
             <form @submit.prevent="submitComment">
                 <div class="control-group">
                     <div class="form-group floating-label-form-group controls">
@@ -109,7 +97,7 @@ export default {
     props: ['id'],
     data() {
         return {
-            event: {},
+            blog: {},
             comments: [],
             name: '',
             body: '',
@@ -120,30 +108,33 @@ export default {
     created() {
         EventService.getBlog(this.id)
             .then(result => {
-                this.event = result.data
+                this.blog = result.data
             })
             .catch(err => {
                 console.log(err)
             })
         axios
-            .get('http://localhost:3000/comments')
+            .get('https://my-json-server.typicode.com/adetyaz/VuePost/db')
             .then(result => {
-                this.comments = result.data
+                console.log(this.comments)
+                this.comments = result.comments.data
             })
             .catch(err => {
                 console.log(err)
             })
     },
     methods: {
-        submitComment: function(e) {
-            e.preventDefault()
+        submitComment: function() {
             // let obj = this
             axios
-                .post('http://localhost:3000/comments', {
-                    name: this.name,
-                    email: this.email,
-                    body: this.body,
-                })
+                .post(
+                    'https://my-json-server.typicode.com/adetyaz/VuePost/db',
+                    {
+                        name: this.name,
+                        email: this.email,
+                        body: this.body,
+                    }
+                )
                 .then(function(response) {
                     this.comments = response.data
                 })
@@ -155,4 +146,40 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.mastheader {
+    background: url('../assets/images/post-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 25rem;
+}
+.post-heading {
+    font-size: 2rem;
+    padding-top: 4rem;
+    text-transform: capitalize;
+    color: rgb(226, 224, 241);
+    font-weight: 600;
+}
+.form-control {
+    width: 20rem;
+}
+form {
+    padding-left: 31rem;
+    padding-top: 5rem;
+}
+.body {
+    font-size: 1.5rem;
+    margin-top: 2rem;
+    display: block;
+}
+.section-comment {
+    font-size: 1.3rem;
+    padding: 0 5rem;
+}
+.comment {
+    text-align: center;
+    font-size: 1.4rem;
+    font-weight: 400;
+}
+</style>
