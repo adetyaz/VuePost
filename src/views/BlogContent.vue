@@ -117,7 +117,7 @@ export default {
             .get('https://my-json-server.typicode.com/adetyaz/VuePost/db')
             .then(result => {
                 console.log(this.comments)
-                this.comments = result.comments.data
+                this.comments = result.data
             })
             .catch(err => {
                 console.log(err)
