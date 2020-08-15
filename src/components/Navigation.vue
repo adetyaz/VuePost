@@ -1,34 +1,28 @@
 <template>
-    <header>
-        <section>
-            <div class="col1">
-                <router-link to="dashboard"><h3>Vuegram</h3></router-link>
-                <ul class="inline">
-                    <li><router-link to="dashboard">Dashboard</router-link></li>
-                    <li><router-link to="settings">Settings</router-link></li>
-                    <li><a @click="logout">logout</a></li>
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+        <div class="container">
+            <a>WeJapa</a>
+            <button
+                class="navbar-toggler navbar-toggler-right"
+                type="button"
+                data-toggle="collapse"
+                data-target="#navbarResponsive"
+                aria-controls="navbarResponsive"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+            >
+                Menu
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <router-link to="{ name: 'blog-list'}"
+                            >Home</router-link
+                        >
+                    </li>
                 </ul>
             </div>
-        </section>
-    </header>
+        </div>
+    </nav>
 </template>
-
-<script>
-const fb = require('../../firebaseConfig.js')
-
-export default {
-    methods: {
-        logout() {
-            fb.auth
-                .signOut()
-                .then(() => {
-                    this.$store.dispatch('clearData')
-                    this.$router.push('/login')
-                })
-                .catch(error => {
-                    console.log(error)
-                })
-        },
-    },
-}
-</script>

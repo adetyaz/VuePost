@@ -1,53 +1,25 @@
 /* eslint-disable prettier/prettier */
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Dashboard from '@/views/Dashboard.vue'
-import Login from '@/views/Login.vue'
-import Registration from '@/views/Registration'
-import Settings from '@/views/Settings.vue'
-import Blog from '@/views/Blog.vue';
-// import firebase from 'firebase'
+import BlogList from '@/views/BlogList.vue'
+
+import BlogContent from '@/views/BlogContent.vue';
+
 
 Vue.use(VueRouter)
 
 const routes = [{
-        path: '*',
-        redirect: '/dashboard',
+        path: '/',
+        name: 'blog-list',
+        component: BlogList,
+
     },
     {
-        path: '/login',
-        name: 'Login',
-        component: Login,
-    },
-    {
-        path: '/registration',
-        name: 'Registration',
-        component: Registration,
-    },
-    {
-        path: '/dashboard',
-        name: 'Dashboard',
-        component: Dashboard,
-        // meta: {
-        //     requiresAuth: true,
-        // },
-    },
-    {
-        path: '/blog',
-        name: 'Blog',
-        component: Blog,
-        // meta: {
-        //     requiresAuth: true,
-        // },
-    },
-    {
-        path: '/settings',
-        name: 'Settings',
-        component: Settings,
-        meta: {
-            requiresAuth: true,
-        },
-    },
+        path: '/blog/:id',
+        name: 'blog-content',
+        component: BlogContent,
+        props: true
+    }
 ]
 
 const router = new VueRouter({
